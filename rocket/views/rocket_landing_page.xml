@@ -5,10 +5,9 @@
         <t t-call="web.frontend_layout">
             <div class="rocket-container o_fullscreen">
                 <h1 class="text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-bold text-transparent neunzigwtf">neunzig.wtf</h1>
-                <div class="group">
+                <div class="rocket">
                     <a href="/home" alt="Going Home">
-                        <img src="/rocket/static/src/img/color_rocket.svg"
-                            class="rocket group-hover:drop-shadow-[0_0_8px_#39ff14] group-hover:scale-110"
+                        <img src="/rocket/static/src/img/my_rocket.svg"
                             alt="Flying Rocket"
                             />
                     </a>

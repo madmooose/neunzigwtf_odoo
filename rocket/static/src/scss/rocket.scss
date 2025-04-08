@@ -21,8 +21,16 @@
     position: absolute;
     bottom: -25vw;
     animation: flyUp 5s ease-in-out infinite;
+    transition: transform 1s ease, filter 0.5s ease;
     &:hover {
         animation-play-state: paused;
+        filter: drop-shadow(0 0 20px #39ff14);
+    }
+    img {
+        &:hover {
+            transition: transform 0.5s ease;
+            transform: scale(1.1);
+        }
     }
 }
 
