@@ -1,0 +1,13 @@
+<odoo>
+    <template id="rocket_landing_template" name="Rocket Landing Page">
+        <t t-set="no_header" t-value="True"/>
+        <t t-set="no_footer" t-value="True"/>
+        <t t-call="web.frontend_layout">
+            <div class="rocket-container o_fullscreen">
+                <h1 class="text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-bold text-transparent neunzigwtf">Welcome to the Future</h1>
+                <img src="/rocket/static/src/img/color_rocket.svg" class="rocket" alt="Flying Rocket"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>

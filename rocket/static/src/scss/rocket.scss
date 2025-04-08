@@ -1,0 +1,36 @@
+.rocket-container {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(to top, #000428, #004e92);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.neunzigwtf {
+    color: white;
+    font-size: 3em;
+    margin-bottom: 50px;
+    font-family: 'Press Start 2P', monospace;;
+}
+
+.rocket {
+    width: 25vw;
+    position: absolute;
+    bottom: -25vw;
+    animation: flyUp 5s ease-in-out infinite;
+}
+
+@keyframes flyUp {
+    0% {
+        transform: translateY(0) rotate(-50deg);
+    }
+    50% {
+        transform: translateY(-100vh) rotate(-30deg);
+    }
+    100% {
+        transform: translateY(-175vh) rotate(-50deg);
+    }
+}
