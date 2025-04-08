@@ -1,7 +1,7 @@
 .rocket-container {
     position: relative;
     height: 100vh;
-    background: linear-gradient(to top, #000428, #004e92);
+    background: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +10,7 @@
 }
 
 .neunzigwtf {
-    color: white;
+    color: #39ff14;
     font-size: 3em;
     margin-bottom: 50px;
     font-family: 'Press Start 2P', monospace;;
@@ -21,6 +21,9 @@
     position: absolute;
     bottom: -25vw;
     animation: flyUp 5s ease-in-out infinite;
+    &:hover {
+        animation-play-state: paused;
+    }
 }
 
 @keyframes flyUp {
