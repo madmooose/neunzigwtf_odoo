@@ -1,15 +1,18 @@
 <odoo>
     <template id="rocket_landing_template" name="Rocket Landing Page">
-        <t t-set="no_header" t-value="True"/>
-        <t t-set="no_footer" t-value="True"/>
+        <t t-set="no_header" t-value="True" />
+        <t t-set="no_footer" t-value="True" />
         <t t-call="web.frontend_layout">
             <div class="rocket-container o_fullscreen">
-                <h1 class="text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-bold text-transparent neunzigwtf">neunzig.wtf</h1>
+                <h1
+                    class="text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-bold text-transparent neunzigwtf"
+                >neunzig.wtf</h1>
                 <div class="rocket">
                     <a href="/home" alt="Going Home">
-                        <img src="/rocket/static/src/img/my_rocket.svg"
+                        <img
+                            src="/rocket/static/src/img/my_rocket.svg"
                             alt="Flying Rocket"
-                            />
+                        />
                     </a>
                 </div>
             </div>
