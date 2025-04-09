@@ -10,9 +10,9 @@
 }
 
 .neunzigwtf {
+    // max-width: 800px;
     color: #39ff14;
-    font-size: 3em;
-    margin-bottom: 50px;
+    font-size: 8vw;
     font-family: 'Press Start 2P', monospace;;
 }
 
@@ -20,7 +20,7 @@
     width: 25vw;
     position: absolute;
     bottom: -25vw;
-    animation: flyUp 5s ease-in-out infinite;
+    animation: flyUp 5s ease-in infinite;
     transition: transform 1s ease, filter 0.5s ease;
     &:hover {
         animation-play-state: paused;
