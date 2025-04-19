@@ -11,20 +11,24 @@
 
 .neunzigwtf {
     color: #39ff14;
-    font-size: 3em;
+    font-size: 8vm;
     margin-bottom: 50px;
     font-family: 'Press Start 2P', monospace;;
 }
 
 .rocket {
-    width: 25vw;
+    width: calc(200px + 20vmin);
+    min-width: 250px;
+    max-width: 600px;
+
     position: absolute;
-    bottom: -25vw;
-    animation: flyUp 5s ease-in-out infinite;
-    transition: transform 1s ease, filter 0.5s ease;
+    transform: rotate(-45deg);
+    animation: flyUp 5s infinite;
+    filter: drop-shadow(0 0 10px #39ff14);
+    transition: filter 0.5s ease;
     &:hover {
         animation-play-state: paused;
-        filter: drop-shadow(0 0 20px #39ff14);
+        filter: drop-shadow(0 0 25px #39ff14);
     }
     img {
         &:hover {
@@ -36,12 +40,15 @@
 
 @keyframes flyUp {
     0% {
-        transform: translateY(0) rotate(-50deg);
+        transform: translateY(100vh) rotate(-50deg);
+        animation-timing-function: ease-out;
     }
     50% {
-        transform: translateY(-100vh) rotate(-30deg);
+        transform: translateY(0) rotate(-30deg);
+        animation-timing-function: linear;
     }
     100% {
-        transform: translateY(-175vh) rotate(-50deg);
+        transform: translateY(calc(-100vh)) rotate(-70deg);
+        animation-timing-function: ease-in;
     }
 }

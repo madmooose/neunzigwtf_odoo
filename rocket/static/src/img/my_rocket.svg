@@ -1,10 +1,29 @@
 <svg
             viewBox="-1 -1 66 66"
             xmlns="http://www.w3.org/2000/svg"
-            stroke="white"
-            strokeWidth="0.5"
+
             >
-        <g id="Rocket_1_">
+            <defs>
+                <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="red" />
+                <stop offset="16%" stop-color="orange" />
+                <stop offset="32%" stop-color="yellow" />
+                <stop offset="48%" stop-color="green" />
+                <stop offset="64%" stop-color="blue" />
+                <stop offset="80%" stop-color="indigo" />
+                <stop offset="100%" stop-color="violet" />
+                </linearGradient>
+                <linearGradient id="rainbowGradientText" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="red" />
+                <stop offset="16%" stop-color="orange" />
+                <stop offset="32%" stop-color="yellow" />
+                <stop offset="48%" stop-color="green" />
+                <stop offset="64%" stop-color="blue" />
+                <stop offset="80%" stop-color="indigo" />
+                <stop offset="100%" stop-color="violet" />
+                </linearGradient>
+            </defs>
+        <g id="Rocket_1_" fill="url(#rainbowGradient)" stroke-width="1" stroke="white">
             <path d="M63.9999542,8.8992481c0-2.7851996-0.7939987-4.9892998-2.3593979-6.5497999
 C55.3563538-3.9113514,38.8339539,2.7459486,24.019455,17.5105476c-0.5382996,0.5366001-1.0302982,1.1086006-1.5033989,1.6948013
 c-0.1553001-0.0642014-0.3339996-0.1216011-0.5394993-0.1694012c-4.2666016-0.9970989-17.960001,1.3291016-21.9463005,17.2549
@@ -53,4 +72,19 @@ c0.1953001,0.1962013,0.4510994,0.2938995,0.7080002,0.2938995c0.2547998,0,0.51071
 l6.5821009-6.5605011c0.3906116-0.389698,0.3916111-1.0224991,0.0018997-1.4141006
 C19.5263557,50.194149,18.8934555,50.1931496,18.5018559,50.5837479z"/>
         </g>
+                    {/* SVG Text inside the rocket */}
+            <text
+                x="30"
+                y="37"
+                text-anchor="middle"
+                alignment-baseline="middle"
+                font-family="Orbitron"
+                font-size="5"
+                font-weight="bold"
+                fill="url(#rainbowGradientText)"
+                stroke-width="0.2"
+                stroke="white"
+                transform="rotate(-10, 0, 0)"
+            >06.09.2025
+            </text>
 </svg>
