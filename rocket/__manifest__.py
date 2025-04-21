@@ -1,6 +1,6 @@
 {
     'name': 'Rocket Landing Page',
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.1.0',
     'summary': 'Landing page with a flying rocket animation.',
     'author': 'Your Name or Company',
     'website': 'https://yourwebsite.com',
@@ -12,6 +12,7 @@
     ],
     'assets': {
         'web.assets_frontend': [
+            '/rocket/static/src/js/bubble_background.js',
             '/rocket/static/src/js/rocket.esm.js',
             '/rocket/static/src/scss/rocket.scss',
         ],

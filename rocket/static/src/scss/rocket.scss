@@ -11,7 +11,6 @@
 
 .neunzigwtf {
     color: #39ff14;
-    font-size: 8vm;
     margin-bottom: 50px;
     font-family: 'Press Start 2P', monospace;;
 }
@@ -20,7 +19,6 @@
     width: calc(200px + 20vmin);
     min-width: 250px;
     max-width: 600px;
-
     position: absolute;
     transform: rotate(-45deg);
     animation: flyUp 5s infinite;
