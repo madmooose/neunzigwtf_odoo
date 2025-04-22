@@ -1,3 +1,9 @@
+:root {
+    --rocket-way: calc(100vh + 100vw);
+    --rocket-from-angle: 0deg;
+    --rocket-to-angle: 180deg;
+}
+
 .rocket-container {
     position: relative;
     height: 100vh;
@@ -12,7 +18,7 @@
 .neunzigwtf {
     color: #39ff14;
     margin-bottom: 50px;
-    font-family: 'Press Start 2P', monospace;;
+    font-family: "Press Start 2P", monospace;
 }
 
 .rocket {
@@ -38,7 +44,8 @@
 
 @keyframes flyUp {
     0% {
-        transform: translateY(100vh) rotate(-50deg);
+        transform: translateY(calc(2 * 50vh))
+            rotate(calc(var(--rocket-from-angle) -50deg));
         animation-timing-function: ease-out;
     }
     50% {
