@@ -5,7 +5,12 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    batch_id = fields.Many2one("sale.order.batch", copy=False, check_company=True, domain="[('state','!=','closed')]")
+    batch_id = fields.Many2one(
+        "sale.order.batch",
+        copy=False,
+        check_company=True,
+        domain="[('state','!=','closed')]",
+    )
 
     def _get_current_batch(self):
         """
@@ -19,7 +24,8 @@ class SaleOrder(models.Model):
 
     def action_add_to_batch(self):
         """
-        TODO: Add Wizard to choose between batches if more than one existis. Picking the first one for now.
+        TODO: Add Wizard to choose between batches if more than one existis.
+        Picking the first one for now.
         """
         for sale_order in self:
             company = sale_order.company_id
@@ -47,7 +53,9 @@ class SaleOrder(models.Model):
                 if order.batch_id:
                     invalid_orders.append(order.name)
             if invalid_orders:
-                raise UserError(_(f"Sale Order belongs to a Batch: {', '.join(invalid_orders)}"))
+                raise UserError(
+                    _(f"Sale Order belongs to a Batch: {', '.join(invalid_orders)}")
+                )
         return super().action_confirm()
 
     def write(self, vals):
