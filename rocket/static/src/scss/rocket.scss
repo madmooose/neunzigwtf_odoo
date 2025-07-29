@@ -1,9 +1,3 @@
-:root {
-    --rocket-way: calc(100vh + 100vw);
-    --rocket-from-angle: 0deg;
-    --rocket-to-angle: 180deg;
-}
-
 .rocket-container {
     position: relative;
     height: 100vh;
@@ -44,8 +38,7 @@
 
 @keyframes flyUp {
     0% {
-        transform: translateY(calc(2 * 50vh))
-            rotate(calc(var(--rocket-from-angle) -50deg));
+        transform: translateY(calc(100vh)) rotate(-50deg);
         animation-timing-function: ease-out;
     }
     50% {
