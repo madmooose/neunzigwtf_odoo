@@ -1,12 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="cart_lines_note" inherit_id="website_sale.cart_lines" name="Shopping Cart Lines">
+    <template
+        id="cart_lines_note"
+        inherit_id="website_sale.cart_lines"
+        name="Shopping Cart Lines"
+    >
         <xpath expr="//th[hasclass('td-qty')]" position="after">
                 <th class="text-center td-note">Note</th>
         </xpath>
         <xpath expr="//td[hasclass('td-qty')]" position="after">
             <td class="text-center td-note" name="note">
-            <input type="text" class="form-control note js-note" id="note" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id" t-att-value="line.note" />
+            <input
+                    type="text"
+                    class="form-control note js-note"
+                    id="note"
+                    t-att-data-line-id="line.id"
+                    t-att-data-product-id="line.product_id.id"
+                    t-att-value="line.note"
+                />
             </td>
         </xpath>
     </template>

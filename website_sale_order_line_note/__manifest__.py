@@ -17,14 +17,8 @@
         "python": [],
         "bin": [],
     },
-    "depends": [
-        "sale_order_line_note",
-        "sale_product_configurator",
-        "website_sale"
-    ],
-    "data": [
-        "views/templates.xml"
-    ],
+    "depends": ["sale_order_line_note", "sale_product_configurator", "website_sale"],
+    "data": ["views/templates.xml"],
     "assets": {
         "web.assets_frontend": [
             "website_sale_order_line_note/static/src/js/website_sale_order_line_note.js",

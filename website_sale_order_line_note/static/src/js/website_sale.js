@@ -1,11 +1,11 @@
-odoo.define('website_sale_order_line_note.note_widget', function (require) {
+odoo.define("website_sale_order_line_note.note_widget", function (require) {
     "use strict";
-    var publicWidget = require('web.public.widget');
+    var publicWidget = require("web.public.widget");
 
     publicWidget.registry.WebsiteSaleOrderLineNote = publicWidget.Widget.extend({
-        selector: '.oe_website_sale .oe_cart',
+        selector: ".oe_website_sale .oe_cart",
         events: {
-            'change .js-note': '_onNoteChange',
+            "change .js-note": "_onNoteChange",
         },
 
         /**
@@ -14,10 +14,10 @@ odoo.define('website_sale_order_line_note.note_widget', function (require) {
         _onNoteChange: function (ev) {
             var $input = $(ev.currentTarget);
             var note = $input.val();
-            var lineId = $input.data('line-id');
-            var productId = $input.data('product-id');
-            var $row = $input.closest('tr');
-            var quantity = parseFloat($row.find('.js_quantity').val()) || 1;
+            var lineId = $input.data("line-id");
+            var productId = $input.data("product-id");
+            var $row = $input.closest("tr");
+            var quantity = parseFloat($row.find(".js_quantity").val()) || 1;
 
             this._rpc({
                 route: "/shop/cart/update_json",
