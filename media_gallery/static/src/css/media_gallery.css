@@ -1,0 +1,13 @@
+/* Basic styles for media gallery */
+.o_portal_media_gallery .media-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.o_portal_media_gallery .media-item {
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 8px;
+    background: #fafafa;
+    width: 220px;
+}

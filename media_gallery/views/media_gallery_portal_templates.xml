@@ -1,0 +1,69 @@
+<odoo>
+    <template id="portal_media_gallery_template" name="Portal Media Gallery">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_media_gallery">
+                <h2>My Media Galleries</h2>
+                <div class="galleries">
+                    <h4>Galleries</h4>
+                    <div
+                        class="gallery-list"
+                        style="display: flex; flex-wrap: wrap; gap: 24px;"
+                    >
+                        <t t-foreach="galleries" t-as="gallery">
+                            <div
+                                class="gallery-card"
+                                style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa;"
+                            >
+                                <div style="text-align:center;">
+                                    <img
+                                        t-if="gallery.cover_image"
+                                        t-att-src="kanban_image('media.gallery', 'cover_image', gallery.id)"
+                                        alt="Cover Image"
+                                        style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
+                                    />
+                                </div>
+                                <div><strong><t t-esc="gallery.name" /></strong></div>
+                                <div><t t-esc="gallery.description" /></div>
+                                <div style="margin-top:8px;">
+                                    <a
+                                        t-att-href="'/my/gallery/' + str(gallery.id)"
+                                        class="btn btn-primary btn-sm"
+                                    >View Items</a>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                <div class="media-items">
+                    <t t-foreach="media_items" t-as="item">
+                        <div class="media-item">
+                            <t t-if="item.file_type == 'image'">
+                                <img
+                                    t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/file'"
+                                    alt="Media"
+                                    style="max-width:200px;"
+                                />
+                            </t>
+                            <t t-if="item.file_type == 'video'">
+                                <video controls="controls" style="max-width:200px;">
+                                    <source
+                                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/file'"
+                                    />
+                                </video>
+                            </t>
+                            <t t-if="item.file_type == 'audio'">
+                                <audio controls="controls">
+                                    <source
+                                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/file'"
+                                    />
+                                </audio>
+                            </t>
+                            <div><strong><t t-esc="item.name" /></strong></div>
+                            <div><t t-esc="item.description" /></div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

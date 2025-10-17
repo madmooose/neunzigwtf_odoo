@@ -1,0 +1,17 @@
+<odoo>
+        <menuitem id="menu_media_gallery_root" name="Media Gallery" sequence="10" />
+        <menuitem
+        id="menu_media_gallery_galleries"
+        name="Galleries"
+        parent="menu_media_gallery_root"
+        action="action_media_gallery"
+        sequence="15"
+    />
+        <menuitem
+        id="menu_media_gallery_item"
+        name="Media Items"
+        parent="menu_media_gallery_root"
+        action="action_media_gallery_item"
+        sequence="20"
+    />
+</odoo>

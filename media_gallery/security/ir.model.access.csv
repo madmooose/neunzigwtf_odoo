@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_media_gallery_manager,access.media.gallery.manager,model_media_gallery,media_gallery.group_media_gallery_manager,1,1,1,1
+access_media_gallery_user,access.media.gallery.user,model_media_gallery,base.group_user,1,0,0,0
+access_media_gallery_item_user,access.media.gallery.item.user,model_media_gallery_item,base.group_user,1,1,1,1
+access_media_gallery_item_manager,access.media.gallery.item.manager,model_media_gallery_item,media_gallery.group_media_gallery_manager,1,1,1,1
+access_media_gallery_item_portal,access.media.gallery.item.portal,model_media_gallery_item,base.group_portal,1,0,0,0

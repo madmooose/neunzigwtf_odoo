@@ -10,6 +10,7 @@ odoo.define("website_sale_order_line_note.note_widget", function (require) {
 
         /**
          * Handle note field change: send note to backend for the correct line.
+         * @param {Event} ev - The change event triggered by the note input field.
          */
         _onNoteChange: function (ev) {
             var $input = $(ev.currentTarget);
