@@ -11,14 +11,12 @@
         "security/ir.model.access.csv",
         "views/media_gallery_views.xml",
         "views/media_gallery_item_views.xml",
-        "views/media_gallery_menus.xml",
         "views/media_gallery_portal_templates.xml",
+        "wizard/media_gallery_add_file_wizard_views.xml",
+        "views/media_gallery_menus.xml",
     ],
     "assets": {
-        "web.assets_frontend": [
-            "media_gallery/static/src/css/media_gallery.css",
-            "media_gallery/static/src/js/media_gallery.js",
-        ],
+        "web.assets_frontend": [],
     },
     "installable": True,
     "application": True,

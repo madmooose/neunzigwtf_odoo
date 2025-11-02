@@ -24,6 +24,10 @@ Portal Media Gallery
 
 Portal Media Gallery for Odoo 16 portal users.
 
+If you want to prevent odoo from resizing your images upon upload, you can set the the following key in yor System Parameters:
+
+    base.image_autoresize_max_px = 0
+
 **Table of contents**
 
 .. contents::
@@ -32,7 +36,7 @@ Portal Media Gallery for Odoo 16 portal users.
 Changelog
 =========
 
-14.10.2025 - Initial scaffold.
+- 16.0.1.0.0: Initial version
 
 Bug Tracker
 ===========
@@ -55,7 +59,7 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-Niels
+- madmooose
 
 Maintainers
 ~~~~~~~~~~~

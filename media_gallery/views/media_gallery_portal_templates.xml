@@ -1,68 +1,214 @@
 <odoo>
-    <template id="portal_media_gallery_template" name="Portal Media Gallery">
+    <template
+        id="portal_my_home_media_galleries"
+        name="Show Media Galleries in My Account"
+        inherit_id="portal.portal_my_home"
+        customize_show="True"
+        priority="50"
+    >
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Galleries</t>
+                <t t-set="url" t-value="'/my/gallery'" />
+                <t t-set="placeholder_count" t-value="'media_gallery_count'" />
+            </t>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_my_home_menu_gallery"
+        name="Portal layout : media gallery menu entries"
+        inherit_id="portal.portal_breadcrumbs"
+        priority="35"
+    >
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li
+                t-if="page_name == 'media_galleries'"
+                t-attf-class="breadcrumb-item #{'active ' if not media_gallery else ''}"
+            >
+                Media Galleries
+            </li>
+            <li
+                t-if="page_name == 'media_gallery'"
+                t-attf-class="breadcrumb-item #{'active ' if not media_gallery else ''}"
+            >
+                <t t-esc="gallery.name" />
+            </li>
+            <li
+                t-if="page_name == 'media_gallery_item'"
+                t-attf-class="breadcrumb-item #{'active ' if not media_gallery else ''}"
+            >
+            <t t-if="gallery">
+                <a t-att-href="'/my/gallery/' + str(gallery.id)"><t
+                            t-esc="gallery.name"
+                        /></a> / </t><span><t t-esc="item.name" /></span>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_media_gallery_list_template" name="Portal Media Gallery List">
         <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Galleries</t>
+            </t>
+            <t t-if="not galleries">
+                <p>There are currently no media galleries for your account.</p>
+            </t>
             <div class="o_portal_media_gallery">
-                <h2>My Media Galleries</h2>
                 <div class="galleries">
-                    <h4>Galleries</h4>
                     <div
                         class="gallery-list"
                         style="display: flex; flex-wrap: wrap; gap: 24px;"
                     >
                         <t t-foreach="galleries" t-as="gallery">
-                            <div
-                                class="gallery-card"
-                                style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa;"
+                            <a
+                                t-att-href="'/my/gallery/' + str(gallery.id)"
+                                style="text-decoration:none; color:inherit;"
                             >
-                                <div style="text-align:center;">
-                                    <img
-                                        t-if="gallery.cover_image"
-                                        t-att-src="kanban_image('media.gallery', 'cover_image', gallery.id)"
-                                        alt="Cover Image"
-                                        style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
-                                    />
+                                <div
+                                    class="gallery-card"
+                                    style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa; cursor:pointer;"
+                                >
+                                    <div style="text-align:center;">
+                                        <img
+                                            t-if="gallery.cover_image"
+                                            t-att-src="'/web/image/media.gallery/' + str(gallery.id) + '/cover_image'"
+                                            alt="Cover Image"
+                                            style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
+                                        />
+                                    </div>
+                                    <div><strong><t
+                                                t-esc="gallery.name"
+                                            /></strong></div>
+                                    <div><t t-esc="gallery.description" /></div>
                                 </div>
-                                <div><strong><t t-esc="gallery.name" /></strong></div>
-                                <div><t t-esc="gallery.description" /></div>
-                                <div style="margin-top:8px;">
-                                    <a
-                                        t-att-href="'/my/gallery/' + str(gallery.id)"
-                                        class="btn btn-primary btn-sm"
-                                    >View Items</a>
-                                </div>
-                            </div>
+                            </a>
                         </t>
                     </div>
                 </div>
-                <div class="media-items">
+            </div>
+        </t>
+    </template>
+
+    <template
+        id="portal_media_gallery_detail_template"
+        name="Portal Media Gallery Detail"
+    >
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Galleries</t>
+            </t>
+            <t t-if="not media_items">
+                <p>There are currently no media items in this gallery.</p>
+            </t>
+            <div class="o_portal_media_gallery_detail">
+                <div class="gallery-description"><t t-esc="gallery.description" /></div>
+                <div
+                    class="media-items"
+                    style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;"
+                >
                     <t t-foreach="media_items" t-as="item">
-                        <div class="media-item">
-                            <t t-if="item.file_type == 'image'">
-                                <img
-                                    t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/file'"
+                            <a
+                            t-att-href="'/my/gallery/item/' + str(item.id)"
+                            style="text-decoration:none; color:inherit;"
+                            t-if="item.file_type == 'image'"
+                        >
+                                <div
+                                class="media-item"
+                                style="border: 1px solid #eee; border-radius: 8px; padding: 12px; width: 220px; background: #fff;"
+                            >
+                                    <img
+                                    t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
                                     alt="Media"
-                                    style="max-width:200px;"
+                                    style="max-width:200px; border-radius:6px; margin-bottom:8px;"
                                 />
-                            </t>
-                            <t t-if="item.file_type == 'video'">
-                                <video controls="controls" style="max-width:200px;">
-                                    <source
-                                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/file'"
-                                    />
-                                </video>
-                            </t>
-                            <t t-if="item.file_type == 'audio'">
-                                <audio controls="controls">
-                                    <source
-                                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/file'"
-                                    />
-                                </audio>
-                            </t>
-                            <div><strong><t t-esc="item.name" /></strong></div>
-                            <div><t t-esc="item.description" /></div>
-                        </div>
+                                    <div><strong><t t-esc="item.name" /></strong></div>
+                                    <div><t t-esc="item.description" /></div>
+                                </div>
+                            </a>
                     </t>
                 </div>
+            </div>
+        </t>
+    </template>
+    <template
+        id="portal_media_gallery_item_template"
+        name="Portal Media Gallery Item Detail"
+    >
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Galleries</t>
+            </t>
+            <div class="o_portal_media_gallery_item" style="text-align:center;">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div>
+                        <t t-if="prev_id">
+                            <a
+                                id="prev-btn"
+                                t-att-href="'/my/gallery/item/' + str(prev_id)"
+                                class="btn btn-secondary"
+                            >
+                                <i
+                                    class="fa fa-arrow-left"
+                                    aria-hidden="true"
+                                /> Previous
+                            </a>
+                        </t>
+                    </div>
+                    <div class="text-center flex-grow-1">
+                        <div class="text-muted mb-2"><t
+                                t-esc="item.description"
+                            /></div>
+                    </div>
+                    <div>
+                        <t t-if="next_id">
+                            <a
+                                id="next-btn"
+                                t-att-href="'/my/gallery/item/' + str(next_id)"
+                                class="btn btn-secondary"
+                            >
+                                Next <i class="fa fa-arrow-right" aria-hidden="true" />
+                            </a>
+                        </t>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <img
+                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_1920'"
+                        alt="Media"
+                        class="img-fluid rounded shadow"
+                        style="max-width:100%;"
+                    />
+                </div>
+                <t t-if="prev_id">
+                    <link
+                        rel="preload"
+                        as="image"
+                        t-att-href="'/web/image/media.gallery.item/' + str(prev_id) + '/image_1920'"
+                    />
+                </t>
+                <t t-if="next_id">
+                    <link
+                        rel="preload"
+                        as="image"
+                        t-att-href="'/web/image/media.gallery.item/' + str(next_id) + '/image_1920'"
+                    />
+                </t>
+                <script type="text/javascript">
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowLeft') {
+                        var prev = document.getElementById('prev-btn');
+                        if (prev) { window.location = prev.href; }
+                    }
+                    if (e.key === 'ArrowRight') {
+                        var next = document.getElementById('next-btn');
+                        if (next) { window.location = next.href; }
+                    }
+                });
+                </script>
             </div>
         </t>
     </template>

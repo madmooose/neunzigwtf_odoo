@@ -16,8 +16,9 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="image_256" widget="image" class="oe_avatar" />
                     <h1>
-                                <field name="name" />
+                        <field name="name" />
                     </h1>
                     <group>
                         <group>
@@ -28,15 +29,6 @@
                             <field name="gallery_id" />
                         </group>
                     </group>
-                    <field
-                        name="file"
-                        attrs="{'invisible': [('file_type', '=', 'image')]}"
-                    />
-                    <field
-                        name="image_1920"
-                        widget="image"
-                        attrs="{'invisible': [('file_type', '!=', 'image')]}"
-                    />
                 </sheet>
             </form>
         </field>

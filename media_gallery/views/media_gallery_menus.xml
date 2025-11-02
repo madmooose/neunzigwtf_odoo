@@ -14,4 +14,11 @@
         action="action_media_gallery_item"
         sequence="20"
     />
+        <menuitem
+        id="menu_media_gallery_add_file_wizard"
+        name="Add File to Gallery"
+        parent="media_gallery.menu_media_gallery_root"
+        action="media_gallery.action_media_gallery_add_file_wizard"
+        sequence="30"
+    />
 </odoo>
