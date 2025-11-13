@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_media_gallery_item_tree" model="ir.ui.view">
+        <field name="name">media.gallery.item.tree</field>
+        <field name="model">media.gallery.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="file_type" />
+                <field name="gallery_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_media_gallery_item_form" model="ir.ui.view">
+        <field name="name">media.gallery.item.form</field>
+        <field name="model">media.gallery.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image_256" widget="image" class="oe_avatar" />
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="description" />
+                        </group>
+                        <group>
+                            <field name="file_type" />
+                            <field name="gallery_id" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_media_gallery_item" model="ir.actions.act_window">
+        <field name="name">Media Gallery Items</field>
+        <field name="res_model">media.gallery.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
