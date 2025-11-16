@@ -1,12 +1,15 @@
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class MediaGalleryAddFileWizard(models.TransientModel):
     _name = "media.gallery.add.file.wizard"
     _description = "Add File to Media Gallery Wizard"
 
-    gallery_id = fields.Many2one("media.gallery", string="Gallery", required=True)
-    name = fields.Char("Title", required=True)
+    def _get_default_title(self):
+        return _("Untitled")
+
+    gallery_id = fields.Many2one("media.gallery", string="Gallery")
+    name = fields.Char("Title", required=True, default=_get_default_title())
     attachment = fields.Binary("File", required=True)
     filename = fields.Char()
     description = fields.Text()
