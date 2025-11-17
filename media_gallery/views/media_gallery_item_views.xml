@@ -77,5 +77,4 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="domain">[('gallery_id','=',False)]</field>
     </record>
-
 </odoo>
