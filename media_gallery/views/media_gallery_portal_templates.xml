@@ -23,25 +23,28 @@
     >
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li
-                t-if="page_name == 'media_galleries'"
-                t-attf-class="breadcrumb-item #{'active ' if not media_gallery else ''}"
-            >
-                Media Galleries
-            </li>
-            <li
                 t-if="page_name == 'media_gallery'"
-                t-attf-class="breadcrumb-item #{'active ' if not media_gallery else ''}"
+                t-attf-class="breadcrumb-item #{'active ' if not gallery or item else ''}"
             >
-                <t t-esc="gallery.name" />
+                <a
+                    t-if="gallery or event"
+                    t-attf-href="/my/gallery?{{ keep_query() }}"
+                >Media Galleries</a>
+                <t t-else="">Media Galleries</t>
             </li>
             <li
-                t-if="page_name == 'media_gallery_item'"
-                t-attf-class="breadcrumb-item #{'active ' if not media_gallery else ''}"
+                t-if="gallery"
+                t-attf-class="breadcrumb-item #{'active ' if not item else ''}"
             >
-            <t t-if="gallery">
-                <a t-att-href="'/my/gallery/' + str(gallery.id)"><t
-                            t-esc="gallery.name"
-                        /></a> / </t><span><t t-esc="item.name" /></span>
+                <a
+                    t-if="item"
+                    t-att-href="'/my/gallery/' + str(gallery.id) + '?' + keep_query()"
+                    t-esc="gallery.name"
+                />
+                <t t-else="" t-esc="gallery.name" />
+            </li>
+            <li t-if="item" class="breadcrumb-item active">
+                <span t-field="item.name" />
             </li>
         </xpath>
     </template>
