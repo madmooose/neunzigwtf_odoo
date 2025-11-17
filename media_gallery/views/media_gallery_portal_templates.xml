@@ -29,8 +29,8 @@
                 <a
                     t-if="gallery or item"
                     t-attf-href="/my/gallery?{{ keep_query() }}"
-                >Media Galleries</a>
-                <t t-else="">Media Galleries</t>
+                >Galleries</a>
+                <t t-else="">Galleries</t>
             </li>
             <li
                 t-if="gallery"
@@ -53,7 +53,7 @@
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Media Galleries</t>
+                <t t-set="title">Galleries</t>
             </t>
             <t t-if="not galleries">
                 <p>There are currently no media galleries for your account.</p>
@@ -101,7 +101,7 @@
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Media Galleries</t>
+                <t t-set="title">Galleries</t>
             </t>
             <t t-if="not media_items">
                 <p>There are currently no media items in this gallery.</p>
@@ -143,7 +143,7 @@
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Media Galleries</t>
+                <t t-set="title">Galleries</t>
             </t>
             <div class="o_portal_media_gallery_item" style="text-align:center;">
                 <div class="d-flex align-items-center justify-content-between mb-2">
