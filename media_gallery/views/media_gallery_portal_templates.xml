@@ -24,17 +24,17 @@
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li
                 t-if="page_name == 'media_gallery'"
-                t-attf-class="breadcrumb-item #{'active ' if not gallery or item else ''}"
+                t-attf-class="breadcrumb-item #{'' if gallery or item else 'active'}"
             >
                 <a
-                    t-if="gallery or event"
+                    t-if="gallery or item"
                     t-attf-href="/my/gallery?{{ keep_query() }}"
                 >Media Galleries</a>
                 <t t-else="">Media Galleries</t>
             </li>
             <li
                 t-if="gallery"
-                t-attf-class="breadcrumb-item #{'active ' if not item else ''}"
+                t-attf-class="breadcrumb-item #{'active' if not item else ''}"
             >
                 <a
                     t-if="item"
