@@ -37,7 +37,8 @@ Changelog
 =========
 
 - 16.0.1.0.0: Initial version
-- 16.0.1.0.0: Breadcrumb and white text fix
+- 16.0.1.0.1: Breadcrumb and white text fix
+- 16.0.1.0.2: Refactor and readability improvements
 
 Bug Tracker
 ===========

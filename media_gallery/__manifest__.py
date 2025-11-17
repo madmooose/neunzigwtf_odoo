@@ -1,6 +1,6 @@
 {
     "name": "Portal Media Gallery",
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.2",
     "category": "Website",
     "summary": "Allows portal users to view and manage media files",
     "author": "madmooose",
@@ -16,7 +16,9 @@
         "views/media_gallery_menus.xml",
     ],
     "assets": {
-        "web.assets_frontend": [],
+        "web.assets_frontend": [
+            "media_gallery/static/src/js/portal_gallery_nav.esm.js",
+        ],
     },
     "installable": True,
     "application": True,

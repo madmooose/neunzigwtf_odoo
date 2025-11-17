@@ -49,7 +49,7 @@
         </xpath>
     </template>
 
-    <template id="portal_media_gallery_list_template" name="Portal Media Gallery List">
+    <template id="portal_media_gallery_list_template" name="Galleries">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
@@ -94,10 +94,7 @@
         </t>
     </template>
 
-    <template
-        id="portal_media_gallery_detail_template"
-        name="Portal Media Gallery Detail"
-    >
+    <template id="portal_media_gallery_detail_template" name="Gallery">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
@@ -136,10 +133,7 @@
             </div>
         </t>
     </template>
-    <template
-        id="portal_media_gallery_item_template"
-        name="Portal Media Gallery Item Detail"
-    >
+    <template id="portal_media_gallery_item_template" name="Gallery Item">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
@@ -200,18 +194,6 @@
                         t-att-href="'/web/image/media.gallery.item/' + str(next_id) + '/image_1920'"
                     />
                 </t>
-                <script type="text/javascript">
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') {
-                        var prev = document.getElementById('prev-btn');
-                        if (prev) { window.location = prev.href; }
-                    }
-                    if (e.key === 'ArrowRight') {
-                        var next = document.getElementById('next-btn');
-                        if (next) { window.location = next.href; }
-                    }
-                });
-                </script>
             </div>
         </t>
     </template>
