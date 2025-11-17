@@ -9,7 +9,7 @@ class MediaGalleryAddFileWizard(models.TransientModel):
         return _("Untitled")
 
     gallery_id = fields.Many2one("media.gallery", string="Gallery")
-    name = fields.Char("Title", required=True, default=_get_default_title())
+    name = fields.Char("Title", required=True, default=_get_default_title)
     attachment = fields.Binary("File", required=True)
     filename = fields.Char()
     description = fields.Text()
