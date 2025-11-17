@@ -24,7 +24,7 @@ class MediaGalleryPortalController(http.Controller):
     def portal_media_gallery_list(self, **kw):
         galleries = request.env["media.gallery"].search([("item_count", "!=", 0)])
         values = {
-            "page_name": "media_galleries",
+            "page_name": "media_gallery",
             "galleries": galleries,
         }
         return request.render(
@@ -61,7 +61,7 @@ class MediaGalleryPortalController(http.Controller):
         prev_id = item_ids[idx - 1] if idx > 0 else None
         next_id = item_ids[idx + 1] if idx < len(item_ids) - 1 else None
         values = {
-            "page_name": "media_gallery_item",
+            "page_name": "media_gallery",
             "gallery": item.gallery_id if item.gallery_id else None,
             "item": item,
             "prev_id": prev_id,
