@@ -4,4 +4,33 @@
         <field name="category_id" ref="base.module_category_website" />
         <field name="users" eval="[(4, ref('base.user_admin'))]" />
     </record>
+    <!-- Users and portal users can read all, but only edit their own subjects -->
+    <record id="media_gallery_item_subject_rule_user" model="ir.rule">
+        <field name="name">User: edit own subject</field>
+        <field name="model_id" ref="model_media_gallery_item_subject" />
+        <field
+            name="domain_force"
+        >['|',('user_id','=',user.id),('user_id','=',False)]</field>
+        <field
+            name="groups"
+            eval="[(4, ref('base.group_user')),(4, ref('base.group_portal'))]"
+        />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+    <record id="media_gallery_item_subject_rule_manager" model="ir.rule">
+        <field name="name">Manager: full access</field>
+        <field name="model_id" ref="model_media_gallery_item_subject" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field
+            name="groups"
+            eval="[(4, ref('media_gallery.group_media_gallery_manager'))]"
+        />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
 </odoo>

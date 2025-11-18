@@ -5,7 +5,7 @@
     "summary": "Allows portal users to view and manage media files",
     "author": "madmooose",
     "website": "https://www.ziemlichoptimal.de",
-    "depends": ["base", "portal", "website"],
+    "depends": ["base", "mail", "portal", "website"],
     "data": [
         "security/media_gallery_security.xml",
         "security/ir.model.access.csv",

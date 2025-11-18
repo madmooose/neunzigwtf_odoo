@@ -1,0 +1,24 @@
+<odoo>
+    <record id="view_media_gallery_subject_tree" model="ir.ui.view">
+        <field name="name">media.gallery.item.subject.tree</field>
+        <field name="model">media.gallery.item.subject</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="user_id" />
+                <field name="visibility" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_media_gallery_subject_form" model="ir.ui.view">
+        <field name="name">media.gallery.item.subject.form</field>
+        <field name="model">media.gallery.item.subject</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="user_id" />
+                    <field name="visibility" />
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>
