@@ -1,7 +1,8 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class MediaGalleryItem(models.Model):
+
     _name = "media.gallery.item"
     _inherit = ["image.mixin", "mail.thread", "mail.activity.mixin"]
     _description = "Media Gallery Item"
@@ -18,7 +19,10 @@ class MediaGalleryItem(models.Model):
         ("own", "Own"),
     ]
 
-    name = fields.Char("Title", required=True)
+    def _get_default_title(self):
+        return _("Untitled")
+
+    name = fields.Char("Title", required=True, default=_get_default_title)
     attachment_id = fields.Many2one(
         "ir.attachment",
         string="Media File",
@@ -34,7 +38,10 @@ class MediaGalleryItem(models.Model):
         STATE_SELECTION, default="draft", required=True, tracking=True
     )
     visibility = fields.Selection(
-        VISIBILITY_SELECTION, default="own", required=True, tracking=True
+        VISIBILITY_SELECTION,
+        compute="_compute_visibility",
+        store=True,
+        tracking=True,
     )
     subject_ids = fields.One2many(
         "media.gallery.item.subject",
@@ -60,29 +67,30 @@ class MediaGalleryItem(models.Model):
         # BDD2: Approve photo, set state to approved
         for rec in self:
             rec.state = "approved"
-            # If no subjects, set visibility to public
-            if not rec.subject_ids:
-                rec.visibility = "public"
 
     def action_deny(self):
         # BDD2: Deny photo, set state to denied
         for rec in self:
             rec.state = "denied"
 
-    @api.onchange("subject_ids")
-    def _onchange_subjects_or_visibilities(self):
+    @api.depends("subject_ids", "subject_ids.visibility")
+    def _compute_visibility(self):
         """
-        BDD3: Update visibility based on subject/user settings.
+        BDD3: Compute visibility based on subject/user settings.
         """
-        for rec in self:
-            vis = [subj.visibility for subj in rec.subject_ids]
-            if vis:
-                if all(v == "public" for v in vis):
-                    rec.visibility = "public"
-                elif any(v == "own" for v in vis):
-                    rec.visibility = "own"
-                elif any(v == "users" for v in vis):
-                    rec.visibility = "users"
+        for item in self:
+            visibility = [subj.visibility for subj in item.subject_ids]
+            if visibility:
+                if all(v == "public" for v in visibility):
+                    item.visibility = "public"
+                elif any(v is False for v in visibility):
+                    item.visibility = "own"
+                elif any(v == "own" for v in visibility):
+                    item.visibility = "own"
+                elif any(v == "users" for v in visibility):
+                    item.visibility = "users"
+            else:
+                item.visibility = "public"
 
     @api.depends("attachment_id")
     def _compute_file_type(self):
@@ -107,3 +115,12 @@ class MediaGalleryItem(models.Model):
                 item.image_1920 = item.attachment_id.datas
             else:
                 item.image_1920 = False
+
+    def action_open_add_file_wizard(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "media.gallery.add.file.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {},
+        }

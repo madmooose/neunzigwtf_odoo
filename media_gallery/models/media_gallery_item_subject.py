@@ -14,8 +14,6 @@ class MediaGalleryItemSubject(models.Model):
             ("users", "Users"),
             ("own", "Own"),
         ],
-        default="own",
-        required=True,
     )
 
     _sql_constraints = [
