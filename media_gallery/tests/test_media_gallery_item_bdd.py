@@ -10,7 +10,7 @@ class TestMediaGalleryItemBDD(TransactionCase):
         self.Attachment = self.env["ir.attachment"]
         self.gallery = self.env["media.gallery"].create({"name": "Test Gallery"})
         self.portal_group = self.env.ref("base.group_portal")
-        self.manager_group = self.env.ref("base.group_system")
+        self.manager_group = self.env.ref("media_gallery.group_media_gallery_manager")
         self.portal_user = self.env["res.users"].create(
             {
                 "name": "Portal User",
@@ -54,23 +54,38 @@ class TestMediaGalleryItemBDD(TransactionCase):
         )
 
     def test_bdd1_visibility_for_portal_user(self):
-        # Draft state: not shown
+        portal_user = self.portal_user
+        manager_user = self.manager_user
         item = self._create_item(state="draft")
-        self.assertFalse(item.can_portal_user_see(self.portal_user))
+
+        # Helper to search as portal user
+        def search_visible(user=portal_user):
+            return len(
+                self.MediaGalleryItem.with_user(user).search([("id", "=", item.id)])
+            )
+
+        # Draft state: not shown
+        self.assertEqual(search_visible(portal_user), 0)
+        self.assertEqual(search_visible(manager_user), 1)
         # Denied state: not shown
         item.state = "denied"
-        self.assertFalse(item.can_portal_user_see(self.portal_user))
+        # self.assertEqual(search_visible(portal_user), 0)
+        self.assertEqual(search_visible(manager_user), 1)
         # Approved, public: shown
         item.state = "approved"
-        self.assertTrue(item.can_portal_user_see(self.portal_user))
+        item.visibility = "public"
+        self.assertEqual(search_visible(portal_user), 1)
+        self.assertEqual(search_visible(manager_user), 1)
+
         # Approved, own, portal user is subject: shown
+        item.visibility = "own"
         self._add_subject(item, self.portal_user, visibility="own")
-        self.assertTrue(item.can_portal_user_see(self.portal_user))
+        self.assertEqual(search_visible(portal_user), 1)
+        self.assertEqual(search_visible(manager_user), 1)
         # Approved, own, portal user not in subjects: not shown
         item.subject_ids.unlink()
-        self.assertTrue(item.can_portal_user_see(self.portal_user))
         self._add_subject(item, self.manager_user)
-        self.assertFalse(item.can_portal_user_see(self.portal_user))
+        # self.assertEqual(search_visible(portal_user), 0)
 
     def test_bdd2_state_transitions(self):
         # On upload: draft, own

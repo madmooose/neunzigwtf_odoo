@@ -35,12 +35,9 @@ class MediaGalleryPortalController(http.Controller):
     @http.route("/my/gallery/<int:gallery_id>", type="http", auth="user", website=True)
     def portal_media_gallery_detail(self, gallery_id, **kw):
         gallery = request.env["media.gallery"].browse(gallery_id)
-        all_items = request.env["media.gallery.item"].search(
+        media_items = request.env["media.gallery.item"].search(
             [("gallery_id", "=", gallery_id), ("file_type", "=", "image")]
         )
-        user = request.env.user
-        # Filter items according to BDD1
-        media_items = all_items.filtered(lambda item: item.can_portal_user_see(user))
         values = {
             "page_name": "media_gallery",
             "gallery": gallery,
@@ -56,16 +53,10 @@ class MediaGalleryPortalController(http.Controller):
     )
     def portal_media_gallery_item(self, item_id, **kw):
         item = request.env["media.gallery.item"].browse(item_id)
-        user = request.env.user
-        # Only allow access if user can see the item
-        if not item.can_portal_user_see(user):
-            return request.not_found()
         gallery_items = request.env["media.gallery.item"].search(
             [("gallery_id", "=", item.gallery_id.id), ("file_type", "=", "image")]
         )
-        # Only show navigable items the user can see
-        visible_items = gallery_items.filtered(lambda i: i.can_portal_user_see(user))
-        item_ids = [i.id for i in visible_items]
+        item_ids = [i.id for i in gallery_items]
         idx = item_ids.index(item_id) if item_id in item_ids else -1
         prev_id = item_ids[idx - 1] if idx > 0 else None
         next_id = item_ids[idx + 1] if idx < len(item_ids) - 1 else None
