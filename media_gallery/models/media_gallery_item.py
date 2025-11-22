@@ -48,21 +48,6 @@ class MediaGalleryItem(models.Model):
         "item_id",
     )
 
-    def can_portal_user_see(self, user):
-        """
-        Returns True if the given portal user (res.users) can see this photo, according to BDD1.
-        """
-        self.ensure_one()
-        if self.state in ("draft", "denied"):
-            return False
-        if self.state == "approved":
-            if self.visibility in ("public", "users"):
-                return True
-            if self.visibility == "own":
-                # Check if user is in subject_ids
-                return any(subj.user_id.id == user.id for subj in self.subject_ids)
-        return False
-
     def action_approve(self):
         # BDD2: Approve photo, set state to approved
         for rec in self:
