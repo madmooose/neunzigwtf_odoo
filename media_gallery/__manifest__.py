@@ -12,6 +12,7 @@
         "views/media_gallery_views.xml",
         "views/media_gallery_item_views.xml",
         "views/media_gallery_portal_templates.xml",
+        "views/media_gallery_templates.xml",
         "wizard/media_gallery_add_file_wizard_views.xml",
         "views/media_gallery_menus.xml",
     ],

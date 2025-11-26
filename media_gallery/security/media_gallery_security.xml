@@ -4,6 +4,42 @@
         <field name="category_id" ref="base.module_category_website" />
         <field name="users" eval="[(4, ref('base.user_admin'))]" />
     </record>
+    <record id="media_gallery_item_rule_public" model="ir.rule">
+        <field name="name">Public Media Access</field>
+        <field name="model_id" ref="media_gallery.model_media_gallery_item" />
+        <field name="domain_force">
+            [
+                ('state', '=', 'approved'),
+                ('visibility', '=', 'public'),
+            ]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_public'))]" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+    <record id="media_gallery_item_rule_user" model="ir.rule">
+        <field name="name">Media User Access</field>
+        <field name="model_id" ref="media_gallery.model_media_gallery_item" />
+        <field name="domain_force">
+            [('state', '=', 'approved'),
+             '|',
+                ('visibility', 'in', ['public', 'users']),
+                '&amp;',
+                    ('visibility', '=', 'own'),
+                    ('subject_ids.user_id', '=', user.id)
+            ]
+        </field>
+        <field
+            name="groups"
+            eval="[(4, ref('base.group_portal')), (4, ref('base.group_user'))]"
+        />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
     <record id="media_gallery_item_rule_manager" model="ir.rule">
         <field name="name">Manager: full access</field>
         <field name="model_id" ref="model_media_gallery_item" />
@@ -29,26 +65,5 @@
         <field name="perm_write" eval="1" />
         <field name="perm_create" eval="1" />
         <field name="perm_unlink" eval="1" />
-    </record>
-    <record id="media_gallery_item_rule_portal" model="ir.rule">
-        <field name="name">Portal: Sichtbare Medien</field>
-        <field name="model_id" ref="media_gallery.model_media_gallery_item" />
-        <field name="domain_force">
-            [('state', '=', 'approved'),
-             '|',
-                ('visibility', 'in', ['public', 'users']),
-                '&amp;',
-                    ('visibility', '=', 'own'),
-                    ('subject_ids.user_id', '=', user.id)
-            ]
-        </field>
-        <field
-            name="groups"
-            eval="[(4, ref('base.group_portal')), (4, ref('base.group_user'))]"
-        />
-        <field name="perm_read" eval="1" />
-        <field name="perm_write" eval="0" />
-        <field name="perm_create" eval="0" />
-        <field name="perm_unlink" eval="0" />
     </record>
 </odoo>

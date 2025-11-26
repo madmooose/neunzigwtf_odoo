@@ -11,7 +11,6 @@ class MediaGallery(models.Model):
     item_ids = fields.One2many("media.gallery.item", "gallery_id", string="Media Items")
     item_count = fields.Integer(
         compute="_compute_item_count",
-        store=True,
     )
 
     @api.depends("item_ids")

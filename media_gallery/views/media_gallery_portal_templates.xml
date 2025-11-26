@@ -17,13 +17,13 @@
 
     <template
         id="portal_my_home_menu_gallery"
-        name="Portal layout : media gallery menu entries"
+        name="Portal layout: media gallery menu entries"
         inherit_id="portal.portal_breadcrumbs"
         priority="35"
     >
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li
-                t-if="page_name == 'media_gallery'"
+                t-if="page_name == 'my_media_gallery'"
                 t-attf-class="breadcrumb-item #{'' if gallery or item else 'active'}"
             >
                 <a
@@ -33,7 +33,7 @@
                 <t t-else="">Galleries</t>
             </li>
             <li
-                t-if="gallery"
+                t-if="gallery and page_name == 'my_media_gallery'"
                 t-attf-class="breadcrumb-item #{'active' if not item else ''}"
             >
                 <a
@@ -43,7 +43,10 @@
                 />
                 <t t-else="" t-esc="gallery.name" />
             </li>
-            <li t-if="item" class="breadcrumb-item active">
+            <li
+                t-if="item and page_name == 'my_media_gallery'"
+                class="breadcrumb-item active"
+            >
                 <span t-field="item.name" />
             </li>
         </xpath>
