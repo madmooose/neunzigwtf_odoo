@@ -8,86 +8,89 @@
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="title">Galleries</t>
-                <t t-set="url" t-value="'/my/gallery'" />
-                <t t-set="placeholder_count" t-value="'media_gallery_count'" />
+                <t t-set="title">Own Media items</t>
+                <t t-set="url" t-value="'/my/own_media_item'" />
+                <t t-set="placeholder_count" t-value="'own_media_item_count'" />
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Approve Media Items</t>
+                <t t-set="url" t-value="'/my/approve_media_item'" />
+                <t t-set="placeholder_count" t-value="'media_item_approval_count'" />
             </t>
         </xpath>
     </template>
 
     <template
-        id="portal_my_home_menu_gallery"
-        name="Portal layout: media gallery menu entries"
+        id="portal_my_home_menu_media_item"
+        name="Portal layout: media item menu entries"
         inherit_id="portal.portal_breadcrumbs"
         priority="35"
     >
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li
-                t-if="page_name == 'my_media_gallery'"
-                t-attf-class="breadcrumb-item #{'' if gallery or item else 'active'}"
-            >
-                <a
-                    t-if="gallery or item"
-                    t-attf-href="/my/gallery?{{ keep_query() }}"
-                >Galleries</a>
-                <t t-else="">Galleries</t>
-            </li>
-            <li
-                t-if="gallery and page_name == 'my_media_gallery'"
-                t-attf-class="breadcrumb-item #{'active' if not item else ''}"
+                t-if="page_name == 'own_media_items'"
+                t-attf-class="breadcrumb-item #{'' if item else 'active'}"
             >
                 <a
                     t-if="item"
-                    t-att-href="'/my/gallery/' + str(gallery.id) + '?' + keep_query()"
-                    t-esc="gallery.name"
-                />
-                <t t-else="" t-esc="gallery.name" />
+                    t-attf-href="/my/own_media_items?{{ keep_query() }}"
+                >Own Media Items</a>
+                <t t-else="">Own Media Items</t>
             </li>
             <li
-                t-if="item and page_name == 'my_media_gallery'"
-                class="breadcrumb-item active"
+                t-if="page_name == 'approve_media_items'"
+                t-attf-class="breadcrumb-item #{'' if item else 'active'}"
             >
-                <span t-field="item.name" />
+                <a
+                    t-if="item"
+                    t-attf-href="/my/approve_media_items?{{ keep_query() }}"
+                >Approve Media Items</a>
+                <t t-else="">Approve Media Items</t>
+            </li>
+            <li
+                t-if="item"
+                t-attf-class="breadcrumb-item"
+            >
+                <t t-esc="item.name" />
             </li>
         </xpath>
     </template>
 
-    <template id="portal_media_gallery_list_template" name="Galleries">
+    <template id="portal_own_media_item_list_template" name="Own Media Items">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Galleries</t>
+                <t t-set="title">Own Media Items</t>
             </t>
-            <t t-if="not galleries">
-                <p>There are currently no media galleries for your account.</p>
+            <t t-if="not items">
+                <p>Currently you don't have any own media items.</p>
             </t>
-            <div class="o_portal_media_gallery">
-                <div class="galleries">
+            <div class="o_portal_media_item">
+                <div class="items">
                     <div
-                        class="gallery-list"
+                        class="item-list"
                         style="display: flex; flex-wrap: wrap; gap: 24px;"
                     >
-                        <t t-foreach="galleries" t-as="gallery">
+                        <t t-foreach="items" t-as="item">
                             <a
-                                t-att-href="'/my/gallery/' + str(gallery.id)"
+                                t-att-href="'/my/own_media_items/' + str(item.id)"
                                 style="text-decoration:none; color:inherit;"
                             >
                                 <div
-                                    class="gallery-card bg-white"
+                                    class="item-card bg-white"
                                     style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa; cursor:pointer;"
                                 >
                                     <div style="text-align:center;">
                                         <img
-                                            t-if="gallery.cover_image"
-                                            t-att-src="'/web/image/media.gallery/' + str(gallery.id) + '/cover_image'"
-                                            alt="Cover Image"
+                                            t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
+                                            alt="Image"
                                             style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
                                         />
                                     </div>
                                     <div><strong><t
-                                                t-esc="gallery.name"
+                                                t-esc="item.name"
                                             /></strong></div>
-                                    <div><t t-esc="gallery.description" /></div>
+                                    <div><t t-esc="item.description" /></div>
                                 </div>
                             </a>
                         </t>

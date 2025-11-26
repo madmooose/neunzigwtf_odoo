@@ -6,75 +6,64 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 class MediaItemPortalControler(CustomerPortal):
     def _prepare_home_portal_values(self, counters):
-        user = request.env.user
         values = super()._prepare_home_portal_values(counters)
-        if "media_item_count" in counters:
+        if "own_media_item_count" in counters:
             media_item_count = (
-                request.env["media.item"].ssearch_count(self._prepare_item_domain(user))
-                if request.env["media.item"].check_access_rights(
+                request.env["media.gallery.item"].search_count(self._prepare_item_domain())
+                if request.env["media.gallery.item"].check_access_rights(
                     "read", raise_exception=False
                 )
                 else 0
             )
-            values["media_item_count"] = media_item_count
+            values["own_media_item_count"] = media_item_count
         if "media_item_approval_count" in counters:
-            media_item_approval_count = (
-                request.env["media.item"].ssearch_count(
-                    self._prepare_item_domain(user, approval=True)
+            media_item_count = (
+                request.env["media.gallery.item"].search_count(
+                    self._prepare_item_domain(approval=True)
                 )
-                if request.env["media.item"].check_access_rights(
+                if request.env["media.gallery.item"].check_access_rights(
                     "read", raise_exception=False
                 )
                 else 0
             )
-            values["media_item_approval_count"] = media_item_approval_count
+            values["media_item_approval_count"] = media_item_count
         return values
 
-    def _prepare_item_domain(self, user, approval=False):
+    def _prepare_item_domain(self, approval=False):
+        user = request.env.user
         if approval:
             return [
-                ("subject_id.user_id", "=", user.id),
+                ("subject_ids.user_id", "=", user.id),
             ]
         else:
             return [
+                "&amp;",
                 "|",
                 ("user_id", "=", user.id),
                 ("subject_id.user_id", "=", user.id),
                 ("state", "=", "approved"),
             ]
 
-    @http.route("/my/gallery", type="http", auth="public", website=True)
-    def portal_media_gallery_list(self, **kw):
-        galleries = request.env["media.gallery"].search([("item_count", "!=", 0)])
-        values = {
-            "page_name": "media_gallery",
-            "galleries": galleries,
-        }
-        return request.render(
-            "media_gallery.portal_media_gallery_list_template",
-            values,
-        )
 
-    @http.route("/my/gallery/<int:gallery_id>", type="http", auth="user", website=True)
-    def portal_media_gallery_detail(self, gallery_id, **kw):
-        gallery = request.env["media.gallery"].browse(gallery_id)
-        media_items = request.env["media.gallery.item"].search(
-            [("gallery_id", "=", gallery_id), ("file_type", "=", "image")]
-        )
+    @http.route(
+        "/my/own_media_item", type="http", auth="user", website=True
+    )
+    def portal_own_media_item(self, **kw):
+        items = request.env["media.gallery.item"].browse(self._prepare_item_domain())
         values = {
-            "page_name": "media_gallery",
-            "gallery": gallery,
-            "media_items": media_items,
+            "page_name": "own_media_items",
+            "items": items,
+
         }
         return request.render(
-            "media_gallery.portal_media_gallery_detail_template",
+            "media_gallery.portal_own_media_item_list_template",
             values,
         )
 
     @http.route(
-        "/my/gallery/item/<int:item_id>", type="http", auth="user", website=True
+        "/my/media_item/<int:item_id>", type="http", auth="user", website=True
     )
-    def portal_media_gallery_item(self, item_id, **kw):
+    def portal_media_item_approval(self, item_id, **kw):
         item = request.env["media.gallery.item"].browse(item_id)
         gallery_items = request.env["media.gallery.item"].search(
             [("gallery_id", "=", item.gallery_id.id), ("file_type", "=", "image")]
