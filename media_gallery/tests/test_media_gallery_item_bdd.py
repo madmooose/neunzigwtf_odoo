@@ -74,19 +74,17 @@ class TestMediaGalleryItemBDD(TransactionCase):
         self.assertEqual(search_visible(manager_user), 1)
         # Approved, public: shown
         item.state = "approved"
-        item.visibility = "public"
         self.assertEqual(search_visible(portal_user), 1)
         self.assertEqual(search_visible(manager_user), 1)
 
         # Approved, own, portal user is subject: shown
-        item.visibility = "own"
         self._add_subject(item, self.portal_user, visibility="own")
         self.assertEqual(search_visible(portal_user), 1)
         self.assertEqual(search_visible(manager_user), 1)
         # Approved, own, portal user not in subjects: not shown
         item.subject_ids.unlink()
         self._add_subject(item, self.manager_user)
-        # self.assertEqual(search_visible(portal_user), 0)
+        self.assertEqual(search_visible(portal_user), 0)
 
     def test_bdd2_state_transitions(self):
         # On upload: draft, own

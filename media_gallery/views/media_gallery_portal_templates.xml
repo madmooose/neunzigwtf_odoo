@@ -65,17 +65,18 @@
             <div class="o_portal_media_item">
                 <div class="items">
                     <div
-                        class="item-list"
+                        class="item-list row"
                         style="display: flex; flex-wrap: wrap; gap: 24px;"
                     >
                         <t t-foreach="items" t-as="item">
                             <a
                                 t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(item.id) }}"
                                 style="text-decoration:none; color:inherit;"
+                                class="col-12 col-sm-6 col-md-4 col-lg-3"
                             >
                                 <div
-                                    class="item-card bg-white"
-                                    style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa; cursor:pointer;"
+                                    class="item-card bg-white p-2"
+                                    style="border: 1px solid #ddd; border-radius: 8px; background: #fafafa; cursor:pointer;"
                                 >
                                     <div style="text-align:center;">
                                         <img
