@@ -9,7 +9,9 @@ class MediaItemPortalControler(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         if "own_media_item_count" in counters:
             media_item_count = (
-                request.env["media.gallery.item"].search_count(self._prepare_item_domain())
+                request.env["media.gallery.item"].search_count(
+                    self._prepare_item_domain()
+                )
                 if request.env["media.gallery.item"].check_access_rights(
                     "read", raise_exception=False
                 )
@@ -17,65 +19,103 @@ class MediaItemPortalControler(CustomerPortal):
             )
             values["own_media_item_count"] = media_item_count
         if "media_item_approval_count" in counters:
-            media_item_count = (
-                request.env["media.gallery.item"].search_count(
-                    self._prepare_item_domain(approval=True)
-                )
-                if request.env["media.gallery.item"].check_access_rights(
-                    "read", raise_exception=False
-                )
-                else 0
+            unapproved_subject_count = request.env[
+                "media.gallery.item.subject"
+            ].search_count(
+                [("user_id", "=", request.env.user.id), ("visibility", "=", False)]
             )
-            values["media_item_approval_count"] = media_item_count
+            values["media_item_approval_count"] = unapproved_subject_count
         return values
 
-    def _prepare_item_domain(self, approval=False):
+    def _prepare_item_domain(self):
         user = request.env.user
-        if approval:
-            return [
-                ("subject_ids.user_id", "=", user.id),
-            ]
-        else:
-            return [
-                "&amp;",
-                "|",
-                ("user_id", "=", user.id),
-                ("subject_id.user_id", "=", user.id),
-                ("state", "=", "approved"),
-            ]
+        return [
+            "|",
+            ("user_id", "=", user.id),
+            ("subject_ids.user_id", "=", user.id),
+        ]
 
+    def _get_approval_items(self):
+        user = request.env.user
+        unapproved_subjects = request.env["media.gallery.item.subject"].search(
+            [("user_id", "=", user.id), ("visibility", "=", False)]
+        )
+        return unapproved_subjects.mapped("item_id")
 
-    @http.route(
-        "/my/own_media_item", type="http", auth="user", website=True
-    )
-    def portal_own_media_item(self, **kw):
-        items = request.env["media.gallery.item"].browse(self._prepare_item_domain())
+    @http.route("/my/own_media_items", type="http", auth="user", website=True)
+    def portal_own_media_items(self, **kw):
+        items = request.env["media.gallery.item"].search(self._prepare_item_domain())
         values = {
             "page_name": "own_media_items",
             "items": items,
-
         }
         return request.render(
-            "media_gallery.portal_own_media_item_list_template",
+            "media_gallery.portal_media_item_list_template",
+            values,
+        )
+
+    @http.route("/my/approve_media_items", type="http", auth="user", website=True)
+    def portal_approve_media_items(self, **kw):
+        items = self._get_approval_items()
+        values = {
+            "page_name": "approve_media_items",
+            "items": items,
+        }
+        return request.render(
+            "media_gallery.portal_media_item_list_template",
             values,
         )
 
     @http.route(
-        "/my/media_item/<int:item_id>", type="http", auth="user", website=True
+        "/my/own_media_items/<int:item_id>", type="http", auth="user", website=True
     )
-    def portal_media_item_approval(self, item_id, **kw):
+    def portal_own_media_item(self, item_id, **kw):
         item = request.env["media.gallery.item"].browse(item_id)
-        gallery_items = request.env["media.gallery.item"].search(
-            [("gallery_id", "=", item.gallery_id.id), ("file_type", "=", "image")]
+        own_items = request.env["media.gallery.item"].search(
+            self._prepare_item_domain()
         )
-        item_ids = [i.id for i in gallery_items]
+        user = request.env.user
+        subject = item.subject_ids.filtered(lambda s: s.user_id.id == user.id)
+        item_ids = [i.id for i in own_items]
         idx = item_ids.index(item_id) if item_id in item_ids else -1
         prev_id = item_ids[idx - 1] if idx > 0 else None
         next_id = item_ids[idx + 1] if idx < len(item_ids) - 1 else None
+        if request.httprequest.method == "POST":
+            visibility = request.params.get("visibility")
+            if subject and visibility in ["public", "users", "own"]:
+                subject.set_visibility(visibility)
         values = {
-            "page_name": "media_gallery",
-            "gallery": item.gallery_id if item.gallery_id else None,
+            "page_name": "own_media_items",
             "item": item,
+            "subject": subject or False,
+            "prev_id": prev_id,
+            "next_id": next_id,
+        }
+        return request.render(
+            "media_gallery.portal_media_gallery_item_template",
+            values,
+        )
+
+    @http.route(
+        "/my/approve_media_items/<int:item_id>", type="http", auth="user", website=True
+    )
+    def portal_approve_media_item(self, item_id, **kw):
+        item = request.env["media.gallery.item"].browse(item_id)
+        user = request.env.user
+        subject = item.subject_ids.filtered(lambda s: s.user_id.id == user.id)
+        approve_items = self._get_approval_items()
+        item_ids = [i.id for i in approve_items]
+        idx = item_ids.index(item_id) if item_id in item_ids else -1
+        prev_id = item_ids[idx - 1] if idx > 0 else None
+        next_id = item_ids[idx + 1] if idx < len(item_ids) - 1 else None
+        if request.httprequest.method == "POST":
+            visibility = request.params.get("visibility")
+            if subject and visibility in ["public", "users", "own"]:
+                subject.set_visibility(visibility)
+        values = {
+            "page_name": "approve_media_items",
+            "item": item,
+            "subject": subject or False,
             "prev_id": prev_id,
             "next_id": next_id,
         }

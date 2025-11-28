@@ -1,3 +1,4 @@
+from odoo.exceptions import AccessError
 from odoo.tests.common import TransactionCase
 
 
@@ -114,3 +115,18 @@ class TestMediaGalleryItemBDD(TransactionCase):
         # At least one user sets own: own
         portal_subject.visibility = "own"
         self.assertEqual(item.visibility, "own")
+
+    def test_bdd4_set_visibility_method(self):
+        item = self._create_item(state="approved")
+        portal_subject = self._add_subject(item, self.portal_user)
+        # Set visibility to users
+        portal_subject.set_visibility("users")
+        self.assertEqual(portal_subject.visibility, "users")
+        self.assertEqual(item.visibility, "users")
+        # Manager changes portal subject's visibility
+        portal_subject.with_user(self.manager_user).set_visibility("public")
+        self.assertEqual(portal_subject.visibility, "public")
+        # Portal user tries to set manager's subject visibility (should fail)
+        manager_subject = self._add_subject(item, self.manager_user)
+        with self.assertRaises(AccessError):
+            manager_subject.with_user(self.portal_user).set_visibility("own")

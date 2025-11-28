@@ -9,12 +9,12 @@
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
                 <t t-set="title">Own Media items</t>
-                <t t-set="url" t-value="'/my/own_media_item'" />
+                <t t-set="url" t-value="'/my/own_media_items'" />
                 <t t-set="placeholder_count" t-value="'own_media_item_count'" />
             </t>
             <t t-call="portal.portal_docs_entry">
                 <t t-set="title">Approve Media Items</t>
-                <t t-set="url" t-value="'/my/approve_media_item'" />
+                <t t-set="url" t-value="'/my/approve_media_items'" />
                 <t t-set="placeholder_count" t-value="'media_item_approval_count'" />
             </t>
         </xpath>
@@ -47,23 +47,20 @@
                 >Approve Media Items</a>
                 <t t-else="">Approve Media Items</t>
             </li>
-            <li
-                t-if="item"
-                t-attf-class="breadcrumb-item"
-            >
+            <li t-if="item" class="breadcrumb-item">
                 <t t-esc="item.name" />
             </li>
         </xpath>
     </template>
 
-    <template id="portal_own_media_item_list_template" name="Own Media Items">
+    <template id="portal_media_item_list_template" name="Own Media Items">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Own Media Items</t>
+                <t t-set="title">Media Items</t>
             </t>
             <t t-if="not items">
-                <p>Currently you don't have any own media items.</p>
+                <p>Currently you don't have any media items.</p>
             </t>
             <div class="o_portal_media_item">
                 <div class="items">
@@ -73,7 +70,7 @@
                     >
                         <t t-foreach="items" t-as="item">
                             <a
-                                t-att-href="'/my/own_media_items/' + str(item.id)"
+                                t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(item.id) }}"
                                 style="text-decoration:none; color:inherit;"
                             >
                                 <div
@@ -87,9 +84,7 @@
                                             style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
                                         />
                                     </div>
-                                    <div><strong><t
-                                                t-esc="item.name"
-                                            /></strong></div>
+                                    <div><strong><t t-esc="item.name" /></strong></div>
                                     <div><t t-esc="item.description" /></div>
                                 </div>
                             </a>
@@ -100,45 +95,6 @@
         </t>
     </template>
 
-    <template id="portal_media_gallery_detail_template" name="Gallery">
-        <t t-call="portal.portal_layout">
-            <t t-set="breadcrumbs_searchbar" t-value="True" />
-            <t t-call="portal.portal_searchbar">
-                <t t-set="title">Galleries</t>
-            </t>
-            <t t-if="not media_items">
-                <p>There are currently no media items in this gallery.</p>
-            </t>
-            <div class="o_portal_media_gallery_detail">
-                <div class="gallery-description"><t t-esc="gallery.description" /></div>
-                <div
-                    class="media-items"
-                    style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;"
-                >
-                    <t t-foreach="media_items" t-as="item">
-                            <a
-                            t-att-href="'/my/gallery/item/' + str(item.id)"
-                            style="text-decoration:none; color:inherit;"
-                            t-if="item.file_type == 'image'"
-                        >
-                                <div
-                                class="media-item  bg-white"
-                                style="border: 1px solid #eee; border-radius: 8px; padding: 12px; width: 220px; background: #fff;"
-                            >
-                                    <img
-                                    t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
-                                    alt="Media"
-                                    style="max-width:200px; border-radius:6px; margin-bottom:8px;"
-                                />
-                                    <div><strong><t t-esc="item.name" /></strong></div>
-                                    <div><t t-esc="item.description" /></div>
-                                </div>
-                            </a>
-                    </t>
-                </div>
-            </div>
-        </t>
-    </template>
     <template id="portal_media_gallery_item_template" name="Gallery Item">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
@@ -151,7 +107,7 @@
                         <t t-if="prev_id">
                             <a
                                 id="prev-btn"
-                                t-att-href="'/my/gallery/item/' + str(prev_id)"
+                                t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(prev_id) }}"
                                 class="btn btn-secondary"
                             >
                                 <i
@@ -162,6 +118,36 @@
                         </t>
                     </div>
                     <div class="text-center flex-grow-1">
+                        <div class="mb-2">
+                            <form method="post" t-if="subject">
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    t-att-value="request.csrf_token()"
+                                />
+                                <button
+                                    type="submit"
+                                    name="visibility"
+                                    value="public"
+                                    class="btn btn-outline-primary mx-1"
+                                    t-att-disabled="subject.visibility == 'public'"
+                                >Public</button>
+                                <button
+                                    type="submit"
+                                    name="visibility"
+                                    value="users"
+                                    class="btn btn-outline-primary mx-1"
+                                    t-att-disabled="subject.visibility == 'users'"
+                                >Users</button>
+                                <button
+                                    type="submit"
+                                    name="visibility"
+                                    value="own"
+                                    class="btn btn-outline-primary mx-1"
+                                    t-att-disabled="subject.visibility == 'own'"
+                                >Own</button>
+                            </form>
+                        </div>
                         <div class="text-muted mb-2"><t
                                 t-esc="item.description"
                             /></div>
@@ -170,7 +156,7 @@
                         <t t-if="next_id">
                             <a
                                 id="next-btn"
-                                t-att-href="'/my/gallery/item/' + str(next_id)"
+                                t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(next_id) }}"
                                 class="btn btn-secondary"
                             >
                                 Next <i class="fa fa-arrow-right" aria-hidden="true" />

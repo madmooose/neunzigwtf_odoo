@@ -1,6 +1,6 @@
 {
     "name": "Portal Media Gallery",
-    "version": "16.0.1.0.9",
+    "version": "16.0.1.1.0",
     "category": "Website",
     "summary": "Allows portal users to view and manage media files",
     "author": "madmooose",

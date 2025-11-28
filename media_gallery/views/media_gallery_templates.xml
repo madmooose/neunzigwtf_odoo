@@ -1,37 +1,4 @@
 <odoo>
-    <template
-        id="portal_menu_gallery"
-        name="Media gallery menu entries"
-        inherit_id="portal.portal_breadcrumbs"
-        priority="35"
-    >
-        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
-            <li
-                t-if="page_name == 'media_gallery'"
-                t-attf-class="breadcrumb-item #{'' if gallery or item else 'active'}"
-            >
-                <a
-                    t-if="gallery or item"
-                    t-attf-href="/gallery?{{ keep_query() }}"
-                >Galleries</a>
-                <t t-else="">Galleries</t>
-            </li>
-            <li
-                t-if="gallery"
-                t-attf-class="breadcrumb-item #{'active' if not item else ''}"
-            >
-                <a
-                    t-if="item"
-                    t-att-href="'/gallery/' + str(gallery.id) + '?' + keep_query()"
-                    t-esc="gallery.name"
-                />
-                <t t-else="" t-esc="gallery.name" />
-            </li>
-            <li t-if="item" class="breadcrumb-item active">
-                <span t-field="item.name" />
-            </li>
-        </xpath>
-    </template>
     <template id="media_gallery_list_template" name="Galleries">
         <t t-call="website.layout">
             <div class="container pt-2 pb-2">
