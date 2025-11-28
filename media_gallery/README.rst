@@ -41,6 +41,7 @@ Changelog
 - 16.0.1.0.2: Refactor and readability improvements
 - 16.0.1.0.9: Add subjects
 - 16.0.1.1.0: Add public gallery and approval logic
+- 16.0.1.1.1: Make gallery list more mobil friendly
 
 Bug Tracker
 ===========

@@ -64,29 +64,27 @@
             </t>
             <div class="o_portal_media_item">
                 <div class="items">
-                    <div
-                        class="item-list row"
-                        style="display: flex; flex-wrap: wrap; gap: 24px;"
-                    >
+                    <div class="item-list row m-0">
                         <t t-foreach="items" t-as="item">
                             <a
                                 t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(item.id) }}"
-                                style="text-decoration:none; color:inherit;"
-                                class="col-12 col-sm-6 col-md-4 col-lg-3"
+                                class="col-6 col-sm-6 col-md-4 col-lg-3 p-0"
+                                t-if="item.file_type == 'image'"
                             >
-                                <div
-                                    class="item-card bg-white p-2"
-                                    style="border: 1px solid #ddd; border-radius: 8px; background: #fafafa; cursor:pointer;"
-                                >
-                                    <div style="text-align:center;">
+                                <div class="media-item">
+                                    <div>
+                                        <strong t-esc="item.name" />
+                                    </div>
+                                    <div>
                                         <img
                                             t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
-                                            alt="Image"
-                                            style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
+                                            alt="Media"
+                                            style="min-width:170px; max-width: 100%; border-radius:6px;"
                                         />
                                     </div>
-                                    <div><strong><t t-esc="item.name" /></strong></div>
-                                    <div><t t-esc="item.description" /></div>
+                                    <div>
+                                        <t t-esc="item.description" />
+                                    </div>
                                 </div>
                             </a>
                         </t>
