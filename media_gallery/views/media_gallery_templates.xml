@@ -17,17 +17,18 @@
                 <div class="o_website_media_gallery">
                     <div class="galleries">
                         <div
-                            class="gallery-list"
+                            class="gallery-list row"
                             style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;"
                         >
                             <t t-foreach="galleries" t-as="gallery">
                                 <a
                                     t-att-href="'/gallery/' + str(gallery.id)"
                                     style="text-decoration:none; color:inherit;"
+                                    class="col-12 col-sm-6 col-md-4 col-lg-3"
                                 >
                                     <div
-                                        class="gallery-card bg-white"
-                                        style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa; cursor:pointer;"
+                                        class="gallery-card bg-white p-2"
+                                        style="border: 1px solid #ddd; border-radius: 8px; background: #fafafa; cursor:pointer;"
                                     >
                                         <div style="text-align:center;">
                                             <img
@@ -51,11 +52,39 @@
         </t>
     </template>
 
+    <template id="media_item_list" name="Media Items">
+        <div class="media-items row m-0">
+            <t t-foreach="media_items" t-as="item">
+                <a
+                    t-attf-href="/{{ media_item_slug }}/{{ item.id }}"
+                    class="col-6 col-sm-6 col-md-4 col-lg-3 p-0"
+                    t-if="item.file_type == 'image'"
+                >
+                    <div class="media-item">
+                        <div>
+                            <strong t-esc="item.name" />
+                        </div>
+                        <div>
+                            <img
+                                t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
+                                alt="Media"
+                                style="min-width:170px; max-width: 100%; border-radius:6px;"
+                            />
+                        </div>
+                        <div>
+                            <t t-esc="item.description" />
+                        </div>
+                    </div>
+                </a>
+            </t>
+        </div>
+    </template>
+
     <template id="media_gallery_detail_template" name="Gallery">
         <t t-call="website.layout">
             <div class="container pt-2 pb-2">
             <nav
-                    class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_navbar  mt-3 rounded"
+                    class="navbar navbar-light navbar-expand-lg border p-0 mb-2 o_navbar  mt-3 rounded"
                 >
                 <ol class="breadcrumb mb-0 py-2 flex-grow-1">
                     <li class="breadcrumb-item active">
@@ -70,36 +99,12 @@
                     <p>There are currently no media items in this gallery.</p>
                 </t>
                 <div class="o_portal_media_gallery_detail">
-                    <div class="gallery-description"><t
-                            t-esc="gallery.description"
-                        /></div>
-                    <div
-                        class="media-items"
-                        style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;"
-                    >
-                        <t t-foreach="media_items" t-as="item">
-                                <a
-                                t-att-href="'/gallery/item/' + str(item.id)"
-                                style="text-decoration:none; color:inherit;"
-                                t-if="item.file_type == 'image'"
-                            >
-                                    <div
-                                    class="media-item  bg-white"
-                                    style="border: 1px solid #eee; border-radius: 8px; padding: 12px; width: 220px; background: #fff;"
-                                >
-                                        <img
-                                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
-                                        alt="Media"
-                                        style="max-width:200px; border-radius:6px; margin-bottom:8px;"
-                                    />
-                                        <div><strong><t
-                                                t-esc="item.name"
-                                            /></strong></div>
-                                        <div><t t-esc="item.description" /></div>
-                                    </div>
-                                </a>
-                        </t>
+                    <div class="gallery-description">
+                        <t t-esc="gallery.description" />
                     </div>
+                    <t t-call="media_gallery.media_item_list">
+                        <t t-set="media_item_slug" t-value="'gallery/item'" />
+                    </t>
                 </div>
             </div>
         </t>
