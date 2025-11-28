@@ -23,3 +23,9 @@ class MediaGalleryItemSubject(models.Model):
             "Each user can only be a subject once per item!",
         ),
     ]
+
+    def set_visibility(self, visibility):
+        for record in self:
+            if record.user_id.id == self.env.user.id:
+                record = record.sudo()
+            record.visibility = visibility

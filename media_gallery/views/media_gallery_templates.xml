@@ -1,0 +1,190 @@
+<odoo>
+    <template id="media_gallery_list_template" name="Galleries">
+        <t t-call="website.layout">
+            <div class="container pt-2 pb-2">
+                <nav
+                    class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_navbar  mt-3 rounded"
+                >
+                    <ol class="breadcrumb mb-0 py-2 flex-grow-1">
+                        <li class="breadcrumb-item">
+                            Galleries
+                        </li>
+                    </ol>
+                </nav>
+                <t t-if="not galleries">
+                    <p>There are currently no media galleries for your account.</p>
+                </t>
+                <div class="o_website_media_gallery">
+                    <div class="galleries">
+                        <div
+                            class="gallery-list"
+                            style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;"
+                        >
+                            <t t-foreach="galleries" t-as="gallery">
+                                <a
+                                    t-att-href="'/gallery/' + str(gallery.id)"
+                                    style="text-decoration:none; color:inherit;"
+                                >
+                                    <div
+                                        class="gallery-card bg-white"
+                                        style="border: 1px solid #ddd; border-radius: 8px; padding: 12px; width: 220px; background: #fafafa; cursor:pointer;"
+                                    >
+                                        <div style="text-align:center;">
+                                            <img
+                                                t-if="gallery.cover_image"
+                                                t-att-src="'/web/image/media.gallery/' + str(gallery.id) + '/cover_image'"
+                                                alt="Cover Image"
+                                                style="max-width:180px; max-height:120px; border-radius:6px; margin-bottom:8px;"
+                                            />
+                                        </div>
+                                        <div><strong><t
+                                                    t-esc="gallery.name"
+                                                /></strong></div>
+                                        <div><t t-esc="gallery.description" /></div>
+                                    </div>
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="media_gallery_detail_template" name="Gallery">
+        <t t-call="website.layout">
+            <div class="container pt-2 pb-2">
+            <nav
+                    class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_navbar  mt-3 rounded"
+                >
+                <ol class="breadcrumb mb-0 py-2 flex-grow-1">
+                    <li class="breadcrumb-item active">
+                        <a t-attf-href="/gallery?{{ keep_query() }}">Galleries</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <t t-esc="gallery.name" />
+                    </li>
+                </ol>
+            </nav>
+                <t t-if="not media_items">
+                    <p>There are currently no media items in this gallery.</p>
+                </t>
+                <div class="o_portal_media_gallery_detail">
+                    <div class="gallery-description"><t
+                            t-esc="gallery.description"
+                        /></div>
+                    <div
+                        class="media-items"
+                        style="display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;"
+                    >
+                        <t t-foreach="media_items" t-as="item">
+                                <a
+                                t-att-href="'/gallery/item/' + str(item.id)"
+                                style="text-decoration:none; color:inherit;"
+                                t-if="item.file_type == 'image'"
+                            >
+                                    <div
+                                    class="media-item  bg-white"
+                                    style="border: 1px solid #eee; border-radius: 8px; padding: 12px; width: 220px; background: #fff;"
+                                >
+                                        <img
+                                        t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_256'"
+                                        alt="Media"
+                                        style="max-width:200px; border-radius:6px; margin-bottom:8px;"
+                                    />
+                                        <div><strong><t
+                                                t-esc="item.name"
+                                            /></strong></div>
+                                        <div><t t-esc="item.description" /></div>
+                                    </div>
+                                </a>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="media_gallery_item_template" name="Gallery Item">
+       <t t-call="website.layout">
+            <div class="container pt-2 pb-2">
+                <nav
+                    class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_navbar  mt-3 rounded"
+                >
+                    <ol class="breadcrumb mb-0 py-2 flex-grow-1">
+                        <li class="breadcrumb-item active">
+                            <a t-attf-href="/gallery?{{ keep_query() }}">Galleries</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a
+                                t-attf-href="/gallery/{{ gallery.id}}?{{ keep_query() }}"
+                                t-esc="gallery.name"
+                            />
+                        </li>
+                        <li class="breadcrumb-item">
+                            <t t-esc="item.name" />
+                        </li>
+                    </ol>
+                </nav>
+                <div class="o_portal_media_gallery_item" style="text-align:center;">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div>
+                            <t t-if="prev_id">
+                                <a
+                                    id="prev-btn"
+                                    t-att-href="'/gallery/item/' + str(prev_id)"
+                                    class="btn btn-secondary"
+                                >
+                                    <i
+                                        class="fa fa-arrow-left"
+                                        aria-hidden="true"
+                                    /> Previous
+                                </a>
+                            </t>
+                        </div>
+                        <div class="text-center flex-grow-1">
+                            <div class="text-muted mb-2"><t
+                                    t-esc="item.description"
+                                /></div>
+                        </div>
+                        <div>
+                            <t t-if="next_id">
+                                <a
+                                    id="next-btn"
+                                    t-att-href="'/gallery/item/' + str(next_id)"
+                                    class="btn btn-secondary"
+                                >
+                                    Next <i
+                                        class="fa fa-arrow-right"
+                                        aria-hidden="true"
+                                    />
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img
+                            t-att-src="'/web/image/media.gallery.item/' + str(item.id) + '/image_1920'"
+                            alt="Media"
+                            class="img-fluid rounded shadow"
+                            style="max-width:100%;"
+                        />
+                    </div>
+                    <t t-if="prev_id">
+                        <link
+                            rel="preload"
+                            as="image"
+                            t-att-href="'/web/image/media.gallery.item/' + str(prev_id) + '/image_1920'"
+                        />
+                    </t>
+                    <t t-if="next_id">
+                        <link
+                            rel="preload"
+                            as="image"
+                            t-att-href="'/web/image/media.gallery.item/' + str(next_id) + '/image_1920'"
+                        />
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

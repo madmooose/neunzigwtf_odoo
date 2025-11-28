@@ -1,3 +1,4 @@
+from odoo.exceptions import AccessError
 from odoo.tests.common import TransactionCase
 
 
@@ -73,19 +74,17 @@ class TestMediaGalleryItemBDD(TransactionCase):
         self.assertEqual(search_visible(manager_user), 1)
         # Approved, public: shown
         item.state = "approved"
-        item.visibility = "public"
         self.assertEqual(search_visible(portal_user), 1)
         self.assertEqual(search_visible(manager_user), 1)
 
         # Approved, own, portal user is subject: shown
-        item.visibility = "own"
         self._add_subject(item, self.portal_user, visibility="own")
         self.assertEqual(search_visible(portal_user), 1)
         self.assertEqual(search_visible(manager_user), 1)
         # Approved, own, portal user not in subjects: not shown
         item.subject_ids.unlink()
         self._add_subject(item, self.manager_user)
-        # self.assertEqual(search_visible(portal_user), 0)
+        self.assertEqual(search_visible(portal_user), 0)
 
     def test_bdd2_state_transitions(self):
         # On upload: draft, own
@@ -114,3 +113,18 @@ class TestMediaGalleryItemBDD(TransactionCase):
         # At least one user sets own: own
         portal_subject.visibility = "own"
         self.assertEqual(item.visibility, "own")
+
+    def test_bdd4_set_visibility_method(self):
+        item = self._create_item(state="approved")
+        portal_subject = self._add_subject(item, self.portal_user)
+        # Set visibility to users
+        portal_subject.set_visibility("users")
+        self.assertEqual(portal_subject.visibility, "users")
+        self.assertEqual(item.visibility, "users")
+        # Manager changes portal subject's visibility
+        portal_subject.with_user(self.manager_user).set_visibility("public")
+        self.assertEqual(portal_subject.visibility, "public")
+        # Portal user tries to set manager's subject visibility (should fail)
+        manager_subject = self._add_subject(item, self.manager_user)
+        with self.assertRaises(AccessError):
+            manager_subject.with_user(self.portal_user).set_visibility("own")
