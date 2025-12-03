@@ -43,7 +43,7 @@ class MediaGalleryItem(models.Model):
         store=True,
         tracking=True,
     )
-    user_id = fields.Many2one('res.users', string='Owner')
+    user_id = fields.Many2one("res.users", string="Owner")
     subject_ids = fields.One2many(
         "media.gallery.item.subject",
         "item_id",
