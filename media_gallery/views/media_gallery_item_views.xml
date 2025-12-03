@@ -4,11 +4,20 @@
         <field name="model">media.gallery.item</field>
         <field name="arch" type="xml">
             <tree>
+                <header>
+                    <button
+                        name="%(action_media_gallery_batch_upload_wizard)d"
+                        type="action"
+                        string="Batch Upload"
+                        class="btn-primary"
+                    />
+                </header>
                 <field name="name" />
                 <field name="file_type" />
                 <field name="gallery_id" />
                 <field name="state" />
                 <field name="visibility" />
+                <field name="id" invisible="1" />
             </tree>
         </field>
     </record>
@@ -83,17 +92,13 @@
         <field name="name">media.gallery.item.kanban</field>
         <field name="model">media.gallery.item</field>
         <field name="arch" type="xml">
-
             <kanban>
-                <!-- TODO: Add file wizard-->
-                <field name="id" />
-                <field name="name" />
-                <field name="image_256" />
+            <field name="id" invisible="1" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click" type="form">
                             <div class="o_kanban_image_full me-1">
-                                <img
+                                    <img
                                     t-att-src="kanban_image('media.gallery.item', 'image_256', record.id.raw_value)"
                                     alt="Photo"
                                 />
@@ -107,6 +112,15 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </t>
+                    <t t-name="kanban-header">
+                        <div class="o_kanban_buttons">
+                            <button
+                                type="action"
+                                name="%(action_media_gallery_batch_upload_wizard)d"
+                                class="btn btn-primary"
+                            >Batch Upload</button>
                         </div>
                     </t>
                 </templates>

@@ -12,3 +12,5 @@ access_media_gallery_add_file_wizard_manager,access.media.gallery.add.file.wizar
 access_media_gallery_item_subject_user,access.media.gallery.item.subject.user,model_media_gallery_item_subject,base.group_user,1,0,0,0
 access_media_gallery_item_subject_manager,access.media.gallery.item.subject.manager,model_media_gallery_item_subject,media_gallery.group_media_gallery_manager,1,1,1,1
 access_media_gallery_item_subject_portal,access.media.gallery.item.subject.portal,model_media_gallery_item_subject,base.group_portal,1,0,0,0
+access_media_gallery_batch_upload_wizard_user,access.media.gallery.batch.upload.wizard.user,model_media_gallery_batch_upload_wizard,base.group_user,1,1,1,0
+access_media_gallery_batch_upload_wizard_manager,access.media.gallery.batch.upload.wizard.manager,model_media_gallery_batch_upload_wizard,media_gallery.group_media_gallery_manager,1,1,1,1
