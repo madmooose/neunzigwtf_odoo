@@ -92,6 +92,7 @@
         <field name="model">media.gallery.item</field>
         <field name="arch" type="xml">
             <kanban>
+                <field name="id" invisible="1" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click" type="form">

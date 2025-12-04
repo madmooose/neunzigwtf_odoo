@@ -129,7 +129,7 @@
                                     t-attf-class="btn btn{{'-outline' if subject.visibility != 'own' else ''}}-primary mx-1"
                                     t-att-disabled="subject.visibility == 'own'"
                                 >
-                                    <i class="fa fa-user-secret" aria-hidden="true" />
+                                    <i class="fa fa-eye-slash" aria-hidden="true" />
                                     <span class="d-none d-sm-inline"> Own</span>
                                 </button>
                                 <button
