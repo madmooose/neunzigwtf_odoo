@@ -17,7 +17,6 @@
                 <field name="gallery_id" />
                 <field name="state" />
                 <field name="visibility" />
-                <field name="id" invisible="1" />
             </tree>
         </field>
     </record>
@@ -93,12 +92,12 @@
         <field name="model">media.gallery.item</field>
         <field name="arch" type="xml">
             <kanban>
-            <field name="id" invisible="1" />
+                <field name="id" invisible="1" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click" type="form">
                             <div class="o_kanban_image_full me-1">
-                                    <img
+                                <img
                                     t-att-src="kanban_image('media.gallery.item', 'image_256', record.id.raw_value)"
                                     alt="Photo"
                                 />

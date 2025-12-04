@@ -107,12 +107,10 @@
                             <a
                                 id="prev-btn"
                                 t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(prev_id) }}"
-                                class="btn btn-secondary"
+                                class="btn btn-primary"
                             >
-                                <i
-                                    class="fa fa-arrow-left"
-                                    aria-hidden="true"
-                                /> Previous
+                                <i class="fa fa-arrow-left" aria-hidden="true" />
+                                <span class="d-none d-sm-inline">Previous</span>
                             </a>
                         </t>
                     </div>
@@ -127,24 +125,33 @@
                                 <button
                                     type="submit"
                                     name="visibility"
-                                    value="public"
-                                    class="btn btn-outline-primary mx-1"
-                                    t-att-disabled="subject.visibility == 'public'"
-                                >Public</button>
+                                    value="own"
+                                    t-attf-class="btn btn{{'-outline' if subject.visibility != 'own' else ''}}-primary mx-1"
+                                    t-att-disabled="subject.visibility == 'own'"
+                                >
+                                    <i class="fa fa-eye-slash" aria-hidden="true" />
+                                    <span class="d-none d-sm-inline"> Own</span>
+                                </button>
                                 <button
                                     type="submit"
                                     name="visibility"
                                     value="users"
-                                    class="btn btn-outline-primary mx-1"
+                                    t-attf-class="btn btn{{'-outline' if subject.visibility != 'users' else ''}}-primary mx-1"
                                     t-att-disabled="subject.visibility == 'users'"
-                                >Users</button>
+                                >
+                                    <i class="fa fa-users" aria-hidden="true" />
+                                    <span class="d-none d-sm-inline"> Users</span>
+                                </button>
                                 <button
                                     type="submit"
                                     name="visibility"
-                                    value="own"
-                                    class="btn btn-outline-primary mx-1"
-                                    t-att-disabled="subject.visibility == 'own'"
-                                >Own</button>
+                                    value="public"
+                                    t-attf-class="btn btn{{'-outline' if subject.visibility != 'public' else ''}}-primary mx-1"
+                                    t-att-disabled="subject.visibility == 'public'"
+                                >
+                                    <i class="fa fa-globe" aria-hidden="true" />
+                                    <span class="d-none d-sm-inline"> Public</span>
+                                </button>
                             </form>
                         </div>
                         <div class="text-muted mb-2"><t
@@ -156,9 +163,10 @@
                             <a
                                 id="next-btn"
                                 t-attf-href="/my/{{ 'own_media_items' if page_name == 'own_media_items' else 'approve_media_items' }}/{{ str(next_id) }}"
-                                class="btn btn-secondary"
+                                class="btn btn-primary"
                             >
-                                Next <i class="fa fa-arrow-right" aria-hidden="true" />
+                                <span class="d-none d-sm-inline"> Next</span>
+                                <i class="fa fa-arrow-right" aria-hidden="true" />
                             </a>
                         </t>
                     </div>
