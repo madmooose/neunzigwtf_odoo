@@ -5,4 +5,5 @@
 - 16.0.1.1.0: Add public gallery and approval logic
 - 16.0.1.1.1: Make gallery list more mobil friendly
 - 16.0.1.2.0: Add batchupload
-- 16.0.1.2.0: Add icons and make mobile friendly
+- 16.0.1.2.1: Add icons and make mobile friendly
+- 16.0.1.3.0: Use queue job for batch upload processing
