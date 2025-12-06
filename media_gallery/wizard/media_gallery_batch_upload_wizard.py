@@ -28,7 +28,7 @@ class MediaGalleryBatchUploadWizard(models.TransientModel):
 
     def action_upload(self):
         self.ensure_one()
-        self.job_extract_and_dispatch()
+        self.with_delay().job_extract_and_dispatch()
 
         return {"type": "ir.actions.act_window_close"}
 
@@ -78,6 +78,11 @@ class MediaGalleryBatchUploadWizard(models.TransientModel):
 
         return True
 
+    def job_unpack_zip_file(self, zip_path, extract_path):
+        with zipfile.ZipFile(zip_path, "r") as z:
+            z.extractall(extract_path)
+        return True
+
     def job_process_single_file(self, file_path, file_name=False, gallery_id=False):
         # Try to read as text (adapt for binary files)
         with open(file_path, "rb") as f:
@@ -99,7 +104,7 @@ class MediaGalleryBatchUploadWizard(models.TransientModel):
             }
         )
         # Return a queue.job recordset for chaining
-        return self.env["queue.job"].search([], limit=1)
+        return True
 
     def job_cleanup_all_files(self):
         extract_path = self.extracted_path
