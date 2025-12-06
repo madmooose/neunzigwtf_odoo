@@ -78,11 +78,6 @@ class MediaGalleryBatchUploadWizard(models.TransientModel):
 
         return True
 
-    def job_unpack_zip_file(self, zip_path, extract_path):
-        with zipfile.ZipFile(zip_path, "r") as z:
-            z.extractall(extract_path)
-        return True
-
     def job_process_single_file(self, file_path, file_name=False, gallery_id=False):
         # Try to read as text (adapt for binary files)
         with open(file_path, "rb") as f:
