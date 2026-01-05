@@ -35,6 +35,7 @@
                     </group>
                     <field name="item_ids" no_create="1">
                         <kanban>
+                            <field name="sequence" widget="handle" />
                             <templates>
                                 <t t-name="kanban-box">
                                     <div class="oe_kanban_card oe_kanban_global_click">

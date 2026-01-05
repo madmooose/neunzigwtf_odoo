@@ -8,3 +8,4 @@
 - 16.0.1.2.1: Add icons and make mobile friendly
 - 16.0.1.3.0: Use queue job for batch upload processing
 - 16.0.1.4.0: Add hotkeys, sequences and gallery validation
+- 16.0.1.4.0: Add sequence for kanban views
