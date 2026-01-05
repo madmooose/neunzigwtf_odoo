@@ -12,6 +12,7 @@
                         class="btn-primary"
                     />
                 </header>
+                <field name="sequence" widget="handle" />
                 <field name="name" />
                 <field name="file_type" />
                 <field name="gallery_id" />
@@ -32,6 +33,7 @@
                         type="object"
                         string="Approve"
                         class="btn-primary"
+                        data-hotkey="a"
                         attrs="{'invisible': [('state', '=', 'approved')]}"
                     />
                     <button
@@ -39,6 +41,7 @@
                         type="object"
                         string="Deny"
                         class="btn-primary"
+                        data-hotkey="d"
                         attrs="{'invisible': [('state', '!=', 'approved')]}"
                     />
                     <button
@@ -46,6 +49,7 @@
                         type="object"
                         string="Deny"
                         class="btn-secondary"
+                        data-hotkey="d"
                         attrs="{'invisible': [('state', '!=', 'draft')]}"
                     />
                 </header>
