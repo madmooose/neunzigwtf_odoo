@@ -1,4 +1,4 @@
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -128,3 +128,10 @@ class TestMediaGalleryItemBDD(TransactionCase):
         manager_subject = self._add_subject(item, self.manager_user)
         with self.assertRaises(AccessError):
             manager_subject.with_user(self.portal_user).set_visibility("own")
+
+    def test_bdd5_gallery_must_be_set_for_approved_items(self):
+        item = self._create_item(state="draft")
+        # Remove gallery and try to approve: should raise ValidationError
+        item.gallery_id = False
+        with self.assertRaises(ValidationError):
+            item.action_approve()

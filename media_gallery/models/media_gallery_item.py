@@ -1,4 +1,5 @@
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class MediaGalleryItem(models.Model):
@@ -23,6 +24,7 @@ class MediaGalleryItem(models.Model):
         return _("Untitled")
 
     name = fields.Char("Title", required=True, default=_get_default_title)
+    sequence = fields.Integer()
     attachment_id = fields.Many2one(
         "ir.attachment",
         string="Media File",
@@ -48,6 +50,14 @@ class MediaGalleryItem(models.Model):
         "media.gallery.item.subject",
         "item_id",
     )
+
+    @api.constrains("state")
+    def _check_gallery_is_set(self):
+        for item in self:
+            if item.state == "approved" and not item.gallery_id:
+                raise ValidationError(
+                    _("Media Gallery must be set for approved items.")
+                )
 
     def action_approve(self):
         # BDD2: Approve photo, set state to approved
